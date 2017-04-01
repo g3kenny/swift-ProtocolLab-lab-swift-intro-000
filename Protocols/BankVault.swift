@@ -6,8 +6,11 @@
 //  Copyright © 2016 Flatiron School. All rights reserved.
 //
 
+protocol ProvideAccess {
+    func allowEntryWithPassword(_ password: [Int]) -> Bool
+}
 
-class BankVault {
+class BankVault: ProvideAccess {
     
     let name: String
     let address: String
@@ -18,6 +21,19 @@ class BankVault {
         self.address = address
     }
     
+    func allowEntryWithPassword(_ password: [Int]) -> Bool {
+        if !password.isEmpty && password.count <= 10 {
+            for (index, e) in password.enumerated() {
+                guard index % 2 == 0 else { continue }
+                
+                if e % 2 != 0 { return false }
+            }
+        } else {
+            return false
+        }
+        
+        return true
+    }
 }
 
 
